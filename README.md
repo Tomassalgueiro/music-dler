@@ -1,6 +1,6 @@
 # Music-dler
 
-Simple python script to download music from a simple link.
+Simple CLI python script to download music from a simple link.
 
 Roadmap:
 
@@ -11,6 +11,5 @@ Roadmap:
     3. [ ] - Soundcloud
     4. [ ] - Playlists from different sources
     x. [ ] - Other sources 
-2. [ ] - Webapp:
-    1. [ ] - CSS
+2. [ ] - CLI visuals:
 3. [ ] - Selecct filepath to save music:

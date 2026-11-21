@@ -12,4 +12,4 @@ Roadmap:
     4. [ ] - Playlists from different sources
     x. [ ] - Other sources 
 2. [ ] - CLI visuals:
-3. [ ] - Selecct filepath to save music:
+3. [ ] - Select filepath to save music

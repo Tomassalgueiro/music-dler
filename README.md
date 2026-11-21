@@ -3,12 +3,12 @@
 Simple CLI python script to download music from a simple link.
 
 Roadmap:
-1. [ ] - Make the script work with:
-    1. [ ] - Youtube 
-        1. [ ] - Parse Youtube videos by timestamps
-    2. [ ] - Spotify
-    3. [ ] - Direct audio files
-    4. [ ] - Playlists from different sources
-    x. [ ] - Other sources 
-2. [ ] - CLI visuals:
+1. [x] - Make the script work with:
+    1. [x] - Youtube 
+        1. [x] - Parse Youtube videos by timestamps
+    2. [x] - Spotify
+    3. [x] - Direct audio files
+    4. [x] - Playlists
+    5. [x] - Other sources 
+2. [ ] - CLI visuals
 3. [ ] - Select filepath to save music

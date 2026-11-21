@@ -15,7 +15,7 @@ def detect_source(url: str) -> str:
         return "direct_file"
     return "ytdlp"
 
-def build_ydl_options(output_dir: str, audio_format: str = "mp3", split_chapters: bool = False, progress_hook = None) -> dict:
+def build_ydl_options(output_dir: str, audio_format: str = "mp3", split_chapters: bool = False, progress_hook = None, split_chapters: bool = False) -> dict:
 
     base_dir = Path(output_dir).expanduser().resolve()
 
@@ -41,6 +41,7 @@ def build_ydl_options(output_dir: str, audio_format: str = "mp3", split_chapters
             "ignoreerrors": True,
             "quiet": True,
             "no_warnings": True,
+            "split_chapters": split_chapters,
             "progress_hooks": [progress_hook] if progress_hook else []
             }
     

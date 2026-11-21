@@ -55,19 +55,3 @@ def download_with_ytdlp(url: str, options: dict) -> bool:
     except Exception as e:
         print(f"Download error for {url}: {e}")
         return False
-
-if __name__ == "__main__":
-    # Create a tiny progress callback so you can see it working in real time
-    def simple_hook(d):
-        if d["status"] == "downloading":
-            print(f"\rDownloading: {d.get('_percent_str', '0%')} at {d.get('_speed_str', 'N/A')}", end="")
-        elif d["status"] == "finished":
-            print("\nDownload finished! Running FFmpeg conversion & tagging...")
-
-    test_url = "https://soundcloud.com/forss/flickermood"  # Or any YouTube/SoundCloud link
-    test_out = "~/Music/Soundpp_Test"
-
-    print(f"Detected source: {detect_source(test_url)}")
-    opts = build_ydl_options(output_dir=test_out, audio_format="mp3", progress_hook=simple_hook)
-    success = download_with_ytdlp(test_url, opts)
-    print(f"\nSuccess: {success}")

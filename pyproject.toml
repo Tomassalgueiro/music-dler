@@ -7,7 +7,9 @@ authors = [
     { name = "guinhas", email = "tomasthor8@gmail.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "yt-dlp>=2026.10.26",
+]
 
 [project.scripts]
 music-downloader = "music_downloader:main"

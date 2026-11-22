@@ -9,13 +9,16 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "beautifulsoup4>=4.15.0",
+    "inquirerpy>=0.3.4",
     "mutagen>=1.48.1",
     "requests>=2.34.2",
+    "rich>=15.0.0",
     "yt-dlp>=2026.10.26",
 ]
 
 [project.scripts]
 music-downloader = "music_downloader:main"
+soundpp-dl = "music_downloader.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.13.7,<0.14.0"]

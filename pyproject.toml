@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-music-downloader = "music_downloader:main"
+#music-downloader = "music_downloader:main"
 soundpp-dl = "music_downloader.cli:main"
 
 [build-system]

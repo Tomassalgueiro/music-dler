@@ -23,10 +23,6 @@ Simple CLI python script to download music from a simple link.
         4. [x] - Playlists
         5. [x] - Other sources 
 2. [ ] - CLI 
-    1. [ ] - Tabs
-        1. [ ] - Download 
-        2. [ ] - Options 
-        3. [ ] - Exit 
 3. [x] - Select filepath to save music
 4. [ ] - Ways to link music
     1. [ ] - Input through file

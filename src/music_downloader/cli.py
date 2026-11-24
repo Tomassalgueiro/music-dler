@@ -31,23 +31,22 @@ import InquirerPy
 
 """
 
-def download_file(filepath: str):
+def download_file(filepath: str, custom_config: dict):
     return 
 
-def download_link(url: str):
+def download_link(url: str, split_chapters: bool, custom_config: dict):
     source = downloader.detect_source(url)
 
     if source == "spotify": 
-        print("a")
+        print("spotify")
     elif source == "direct_file":
-        print("a")
+        print("direct")
     elif source == "ytdlp":
-        print("yt")
+        ytdlp_opts = downloader.build_ydl_options(custom_config["output_dir"], split_chapters=split_chapters) 
+        downloader.download_with_ytdlp(url, ytdlp_opts)
     else:
         print("Invalid source")
         return
-
-    
 
 def cli():
     rich.print("[italic blue]Opening cli[/italic blue]")
@@ -56,16 +55,16 @@ def main():
     parser = argparse.ArgumentParser(description='Download your music')
     
     parser.add_argument("-f", "-file", dest="file", help="Path to a file containing links")
-
     parser.add_argument("-l", "-link", dest="link", help="Link to download")
+    parser.add_argument("--split-chapters", action=argparse.BooleanOptionalAction, default=True, help="Flag to split chapters")
 
     args = parser.parse_args()
 
     custom_config = config.load_config()
     if args.file:
-        download_file(args.file)
+        download_file(args.file, custom_config)
     elif args.link:
-        download_link(args.link)
+        download_link(args.link, split_chapters=args.split_chapters, custom_config=custom_config)
     else:
         cli()
 

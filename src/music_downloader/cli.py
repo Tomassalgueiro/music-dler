@@ -1,4 +1,6 @@
 import argparse
+from music_downloader import downloader, config
+#import parser
 
 import rich 
 import InquirerPy
@@ -29,11 +31,45 @@ import InquirerPy
 
 """
 
-def start():
-    rich.print("[italic red]Hello[/italic red] World!")
+def download_file(filepath: str):
+    return 
+
+def download_link(url: str):
+    source = downloader.detect_source(url)
+
+    if source == "spotify": 
+        print("a")
+    elif source == "direct_file":
+        print("a")
+    elif source == "ytdlp":
+        print("yt")
+    else:
+        print("Invalid source")
+        return
+
+    
+
+def cli():
+    rich.print("[italic blue]Opening cli[/italic blue]")
 
 def main():
-    start()
+    parser = argparse.ArgumentParser(description='Download your music')
+    
+    parser.add_argument("-f", "-file", dest="file", help="Path to a file containing links")
+
+    parser.add_argument("-l", "-link", dest="link", help="Link to download")
+
+    args = parser.parse_args()
+
+    custom_config = config.load_config()
+    if args.file:
+        download_file(args.file)
+    elif args.link:
+        download_link(args.link)
+    else:
+        cli()
+
+    config.save_config(custom_config)
 
 if __name__ == "__main__":
     main() 

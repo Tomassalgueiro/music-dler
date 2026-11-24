@@ -42,13 +42,13 @@ def build_ydl_options(output_dir: str, audio_format: str = "mp3", split_chapters
     ]
 
     outtmpl = {
-            "default": str(base_dir / "%(artist,uploader)s" / "%(album,playlist_title|Singles)s" / "%(title)s.%(ext)s"),
+            "default": str(base_dir / "%(title)s.%(ext)s"),
     }
 
     if split_chapters:
         postprocessors.append({"key": "FFmpegSplitChapters", "force_keyframes": False})
         outtmpl["chapter"] = str(
-            base_dir / "%(artist,uploader)s" / "%(title)s" / "%(section_number)02d - %(section_title)s.%(ext)s"
+            base_dir / "%(title)s" / "%(section_number)02d - %(section_title)s.%(ext)s"
         )
 
     return {

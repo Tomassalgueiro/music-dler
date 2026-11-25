@@ -31,7 +31,7 @@ import InquirerPy
 
 """
 
-def download_file(filepath: str, custom_config: dict):
+def download_file(filepath: str, split_chapters:bool, custom_config: dict):
     return 
 
 def download_link(url: str, split_chapters: bool, custom_config: dict):
@@ -62,7 +62,7 @@ def main():
 
     custom_config = config.load_config()
     if args.file:
-        download_file(args.file, custom_config)
+        download_file(args.file, split_chapters=args.split_chapters, custom_config=custom_config)
     elif args.link:
         download_link(args.link, split_chapters=args.split_chapters, custom_config=custom_config)
     else:

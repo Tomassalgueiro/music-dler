@@ -1,6 +1,7 @@
 import argparse
 from music_downloader import downloader, config
 #import parser
+from pathlib import Path
 
 import rich 
 import InquirerPy
@@ -31,22 +32,11 @@ import InquirerPy
 
 """
 
-def download_file(filepath: str, split_chapters:bool, custom_config: dict):
+def download_file(filepath: str, split_chapters:bool, custom_config: dict, filetype: str):
     return 
 
-def download_link(url: str, split_chapters: bool, custom_config: dict):
-    source = downloader.detect_source(url)
-
-    if source == "spotify": 
-        print("spotify")
-    elif source == "direct_file":
-        print("direct")
-    elif source == "ytdlp":
-        ytdlp_opts = downloader.build_ydl_options(custom_config["output_dir"], split_chapters=split_chapters) 
-        downloader.download_with_ytdlp(url, ytdlp_opts)
-    else:
-        print("Invalid source")
-        return
+def download_link(url: str, split_chapters: bool, custom_config: dict, filetype: str):
+    downloader.process_link(url,custom_config["output_dir"],filetype, split_chapters)
 
 def cli():
     rich.print("[italic blue]Opening cli[/italic blue]")
@@ -54,21 +44,29 @@ def cli():
 def main():
     parser = argparse.ArgumentParser(description='Download your music')
     
-    parser.add_argument("-f", "-file", dest="file", help="Path to a file containing links")
-    parser.add_argument("-l", "-link", dest="link", help="Link to download")
-    parser.add_argument("--split-chapters", action=argparse.BooleanOptionalAction, default=True, help="Flag to split chapters")
+    source_group = parser.add_mutually_exclusive_group()
+    source_group.add_argument("-f", "--file", dest="file", help="Path to a file containing links")
+    source_group.add_argument("-l", "--link", dest="link", help="Link to download")
+
+    parser.add_argument("--split-chapters", action=argparse.BooleanOptionalAction, default=False, help="Split by video chapters")
+    parser.add_argument("-ft", "--filetype", dest="filetype", default="mp3", choices=["mp3", "flac", "wav", "m4a", "ogg", "opus"], help="Filetype may be one of the following: .mp3, .flac, .wav, .m4a, .ogg, .opus")
+    parser.add_argument("-o", "--out", dest="out", help="Custom output folder")
 
     args = parser.parse_args()
-
     custom_config = config.load_config()
+
+    if args.out:
+        custom_config["output_dir"] = str(Path(args.out).expanduser().resolve())
+
     if args.file:
-        download_file(args.file, split_chapters=args.split_chapters, custom_config=custom_config)
+        download_file(args.file, split_chapters=args.split_chapters, custom_config=custom_config, filetype=args.filetype)
     elif args.link:
-        download_link(args.link, split_chapters=args.split_chapters, custom_config=custom_config)
+        download_link(args.link, split_chapters=args.split_chapters, custom_config=custom_config, filetype=args.filetype)
     else:
         cli()
 
-    config.save_config(custom_config)
+    if not args.out:
+        config.save_config(custom_config)
 
 if __name__ == "__main__":
     main() 

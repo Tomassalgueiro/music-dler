@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from mutagen import File as MutagenFile
 from yt_dlp.postprocessor import PostProcessor
 
-DIRECT_AUDIO_EXTS = { ".mp3", ".flac", ".wav", ".m4a", ".ogg", ".opus"}
+DIRECT_AUDIO_EXTS = { ".mp3", ".flac", ".wav", ".m4a", ".ogg", ".opus" }
 ARCHIVE_EXTS = { ".zip" }
 
 def sanitize(name:str) -> str:

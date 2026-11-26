@@ -1,9 +1,12 @@
 import argparse
-from music_downloader import downloader, config, parser
 from pathlib import Path
 
 import rich 
-import InquirerPy
+from InquirerPy import inquirer
+
+from music_downloader import downloader, config, parser
+
+AUDIO_FORMATS = { "mp3", "flac", "wav", "m4a", "ogg", "opus" }
 
 """ This function will evaluate for 2 case cenarios
    1. Argument passing on run, this means the user will run like these two opts:
@@ -62,7 +65,7 @@ def main():
     source_group.add_argument("-l", "--link", dest="link", help="Link to download")
 
     parser.add_argument("--split-chapters", action=argparse.BooleanOptionalAction, default=False, help="Split by video chapters")
-    parser.add_argument("-ft", "--filetype", dest="filetype", default="mp3", choices=["mp3", "flac", "wav", "m4a", "ogg", "opus"], help="Filetype may be one of the following: .mp3, .flac, .wav, .m4a, .ogg, .opus")
+    parser.add_argument("-ft", "--filetype", dest="filetype", default="mp3", choices=AUDIO_FORMATS, help="Filetype may be one of the following: .mp3, .flac, .wav, .m4a, .ogg, .opus")
     parser.add_argument("-o", "--out", dest="out", help="Custom output folder")
 
     args = parser.parse_args()

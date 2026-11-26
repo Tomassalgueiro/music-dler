@@ -1,5 +1,4 @@
 # this file opens a txt and parses everylink to send later into the 
-
 def parse_links(lines: list[str]) -> list[str]: 
 
     links = []

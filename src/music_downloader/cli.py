@@ -1,6 +1,5 @@
 import argparse
-from music_downloader import downloader, config
-#import parser
+from music_downloader import downloader, config, parser
 from pathlib import Path
 
 import rich 
@@ -33,10 +32,24 @@ import InquirerPy
 """
 
 def download_file(filepath: str, split_chapters:bool, custom_config: dict, filetype: str):
-    return 
+
+    path = Path(filepath).expanduser().resolve()
+    if not path.is_file():
+        rich.print("[red]ERROR:[/red] Invalid file or file does not exist!")
+        return
+
+    with open(path, "r", encoding="utf-8") as f:
+        links = parser.parse_links(f.read().splitlines())
+        
+        if not links:
+            rich.print("[yellow]Warning:[/yellow] File exists but has not links")
+            return
+
+        for link in links:
+            download_link(link, split_chapters=split_chapters, custom_config=custom_config, filetype=filetype)
 
 def download_link(url: str, split_chapters: bool, custom_config: dict, filetype: str):
-    downloader.process_link(url,custom_config["output_dir"],filetype, split_chapters)
+    return downloader.process_link(url,custom_config["output_dir"],filetype, split_chapters)
 
 def cli():
     rich.print("[italic blue]Opening cli[/italic blue]")

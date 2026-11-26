@@ -9,6 +9,7 @@ import requests
 import yt_dlp
 from bs4 import BeautifulSoup
 from mutagen import File as MutagenFile
+from yt_dlp.postprocessor import PostProcessor
 
 DIRECT_AUDIO_EXTS = { ".mp3", ".flac", ".wav", ".m4a", ".ogg", ".opus"}
 ARCHIVE_EXTS = { ".zip" }
@@ -63,10 +64,41 @@ def build_ydl_options(output_dir: str, audio_format: str = "mp3", split_chapters
     }
 
 
-def download_with_ytdlp(url: str, options: dict) -> bool:
+class ChapterTagsPP(PostProcessor):
 
+    def run(self, info):
+        mix_title = info.get("title")
+        for chapter in info.get("chapters") or []:
+            path = chapter.get("filepath")
+            name = chapter.get("title")
+            if not path or not name or not Path(path).exists():
+                continue
+
+            audio = MutagenFile(path, easy=True)
+            if audio is None:
+                continue
+            if audio.tags is None:
+                audio.add_tags()
+
+            title, artist = name, None
+            if " by " in name:
+                title, artist = name.rsplit(" by ", 1)
+            elif " - " in name:
+                artist, title = name.split(" - ", 1)
+
+            audio["title"] = title.strip()
+            if artist:
+                audio["artist"] = artist.strip()
+            if mix_title:
+                audio["album"] = mix_title
+            audio.save()
+        return [], info
+
+
+def download_with_ytdlp(url: str, options: dict) -> bool:
     try:
         with yt_dlp.YoutubeDL(options) as ydl:
+            ydl.add_post_processor(ChapterTagsPP())
             ydl.download([url])
         return True
     except Exception as e:
